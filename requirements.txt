@@ -1,0 +1,5 @@
+cyberwave
+elevenlabs
+mediapipe
+opencv-python
+python-dotenv
