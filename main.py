@@ -20,9 +20,13 @@ import cyberwave as cw
 robot = cw.twin("the-robot-studio/so101")
 
 def move(pose, delay=0.4):
-    for joint, angle in pose.items():
-        robot.joints.set(joint, angle)
-    time.sleep(delay)
+    """Move robot joints to target pose"""
+    try:
+        for joint, angle in pose.items():
+            robot.joints.set(joint, angle)
+        time.sleep(delay)
+    except Exception as e:
+        print(f"[Robot Error] {e}")
 
 REST         = {"1": 0,   "2": 45, "3": -45, "4": 0,  "5": 0, "6": 50}
 PAT_SEQUENCE = [
@@ -66,13 +70,16 @@ DISTRACTED_LINES = [
 ]
 
 def speak(text):
-    audio = el.text_to_speech.convert(
-        text=text,
-        voice_id="JBFqnCBsd6RMkjVDRZzb",
-        model_id="eleven_v3",
-        output_format="mp3_44100_128",
-    )
-    el_play(audio)
+    try:
+        audio = el.text_to_speech.convert(
+            text=text,
+            voice_id="JBFqnCBsd6RMkjVDRZzb",
+            model_id="eleven_turbo_v2_5",  # Faster for real-time responses
+            output_format="mp3_44100_128",
+        )
+        el_play(audio)
+    except Exception as e:
+        print(f"[Voice Error] {e}")
 
 def speak_bg(text):
     threading.Thread(target=speak, args=(text,), daemon=True).start()
@@ -143,13 +150,29 @@ last_state = None
 last_trigger = 0
 no_face_start = None
 
-print("EmotiArm starting webcam...")
+print("="*60)
+print("EmotiArm — Emotionally Intelligent Robot Companion")
+print("="*60)
+print("Initializing webcam...")
 cap = cv2.VideoCapture(0)
 if not cap.isOpened():
-    print("ERROR: Cannot open webcam")
+    print("\n❌ ERROR: Cannot open webcam!")
+    print("\nTroubleshooting:")
+    print("  1. Check System Settings → Privacy & Security → Camera")
+    print("  2. Enable 'Terminal' or your terminal app")
+    print("  3. Restart terminal and try again")
+    print("\nOr use keyboard demo mode: python3 main_keyboard.py")
     exit(1)
 
-print("EmotiArm ready! Look at the camera. Press 'q' to quit.")
+print("✓ Webcam ready")
+print("✓ Cyberwave connected")
+print("✓ ElevenLabs ready")
+print("\nStates detected:")
+print("  😢 SAD        → Pat + comfort")
+print("  😵 DISTRACTED → Slap + focus")
+print("  😌 NEUTRAL    → Rest position")
+print("\nPress 'q' in video window to quit")
+print("="*60)
 move(REST, 0.5)
 
 try:
