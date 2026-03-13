@@ -1,0 +1,3 @@
+cyberwave
+elevenlabs
+python-dotenv
