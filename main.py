@@ -23,7 +23,7 @@ def move(pose, delay=0.4):
     """Move robot joints to target pose"""
     try:
         for joint, angle in pose.items():
-            robot.joints.set(joint, angle)
+            robot.joints.set(joint, angle, source_type='sim')
         time.sleep(delay)
     except Exception as e:
         print(f"[Robot Error] {e}")

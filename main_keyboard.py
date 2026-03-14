@@ -16,11 +16,11 @@ load_dotenv()
 # ── Cyberwave ──────────────────────────────────────────────────────────────────
 import cyberwave as cw
 
-robot = cw.twin("the-robot-studio/so101")
+robot = cw.twin("the-robot-studio/so101", environment="f3016ce0-620b-466f-81bd-7d75e7bf46e0")
 
 def move(pose, delay=0.4):
     for joint, angle in pose.items():
-        robot.joints.set(joint, angle)
+        robot.joints.set(joint, angle, source_type='sim')
     time.sleep(delay)
 
 REST         = {"1": 0,   "2": 45, "3": -45, "4": 0,  "5": 0, "6": 50}
