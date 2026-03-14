@@ -17,7 +17,7 @@ load_dotenv()
 # ── Cyberwave ──────────────────────────────────────────────────────────────────
 import cyberwave as cw
 
-robot = cw.twin("the-robot-studio/so101")
+robot = cw.twin("the-robot-studio/so101", environment="f3016ce0-620b-466f-81bd-7d75e7bf46e0")
 
 def move(pose, delay=0.4):
     """Move robot joints to target pose"""
@@ -53,8 +53,7 @@ def play_motion(sequence, delay=0.4):
     move(REST, 0.5)
 
 # ── ElevenLabs ────────────────────────────────────────────────────────────────
-from elevenlabs.client import ElevenLabs
-from elevenlabs import play as el_play
+from elevenlabs import ElevenLabs, play
 
 el = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
 

@@ -48,8 +48,7 @@ def play_motion(sequence, delay=0.4):
     move(REST, 0.5)
 
 # ── ElevenLabs ────────────────────────────────────────────────────────────────
-from elevenlabs.client import ElevenLabs
-from elevenlabs import play as el_play
+from elevenlabs import ElevenLabs, play
 
 el = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
 
